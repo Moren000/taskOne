@@ -48,6 +48,7 @@ delegate (navigation, 'a', 'click', function (e) {
         if (numA == 1) {
             for(let i = 1; i <= arr_a.length-2; i++) {
                 arr_a[i].innerHTML = i + 1;
+                page_now_pagination = Number(this.innerHTML);
             }
         } else {
             for(let i = arr_a.length-2; i >= 1; i--) {
