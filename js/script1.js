@@ -1,12 +1,22 @@
 const url = 'https://rickandmortyapi.com/api/character/?page='
+let booleanSortDefault = true;
 // создали функцию, которая берет данные из сервера и ставит их на страницу.
 async function fetchToDo(url) {
     const response = await fetch(url);
     const data = await response.json();
+    
+    if (!booleanSortDefault) {
+        let arrElementsSorted = sortDefault(Array.from(document.querySelectorAll('.characterCard')))
+        let arr_td = document.querySelectorAll('td');
+        for(let i = 0; i < arrElementsSorted.length; i++) {
+            arr_td[i].append(arrElementsSorted[i])
+        }
+        booleanSortDefault = true;
+    }
 
     const article = document.querySelectorAll('article');
     article.forEach(element=>element.classList.remove('articleFlex'));
-
+    
     for(let i = 0; i < data.results.length; i++) {
         const section = article[i].querySelectorAll('.section');
         article[i].classList.add('articleFlex');
@@ -50,7 +60,6 @@ delegate (navigation, 'a', 'click', function (e) {
                 arr_a[i].innerHTML = i + 1;
             }
             page_now_pagination = Number(this.innerHTML);
-
         } else {
             for(let i = arr_a.length-2; i >= 1; i--) {
                 arr_a[i].innerHTML = --numA;
@@ -75,7 +84,6 @@ delegate (navigation, 'a', 'click', function (e) {
 function changeNumA(arr, e) {
     let num;
     let numIH = Number(e.target.innerHTML);
-    console.log(numIH);
     if (numIH > page_now_pagination && numIH != 41 && numIH != 2) {
         num = 2;
         changeClassA(arr[2], arr)
@@ -129,6 +137,7 @@ delegate(sort_btn, 'button', 'click', function(){
 
 // функция сортировки по полу
 function sortGender(arrElem) {
+    booleanSortDefault = false;
     return arrElem.sort((rowA)=> {
         let elementA = rowA.querySelector('.gender');
         return elementA.innerHTML == 'Female'  ? -1 : 1;
@@ -136,13 +145,20 @@ function sortGender(arrElem) {
 }
 // функция сортировки по умолчанию
 function sortDefault (arrElem) {
+    booleanSortDefault = true;
     return arrElem.sort((rowA, rowB)=>Number(rowA.dataset.num) > Number(rowB.dataset.num) ? 1 : -1)
 }
 
 // функция сортировки по алфавиту 
 function sortAlphabet (arrElem) {
+    booleanSortDefault = false;
     return arrElem.sort((rowA, rowB)=> {
         let elementA = rowA.querySelector('.name_character');
+        let elementB = rowB.querySelector('.name_character');
+        return elementA.innerHTML > elementB.innerHTML ? 1 : -1;
+    }) 
+    
+}
         let elementB = rowB.querySelector('.name_character');
         return elementA.innerHTML > elementB.innerHTML ? 1 : -1;
     }) 
