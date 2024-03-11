@@ -158,9 +158,4 @@ function sortAlphabet (arrElem) {
         return elementA.innerHTML > elementB.innerHTML ? 1 : -1;
     }) 
     
-}
-        let elementB = rowB.querySelector('.name_character');
-        return elementA.innerHTML > elementB.innerHTML ? 1 : -1;
-    }) 
-    
-}
+} 
